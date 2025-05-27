@@ -153,41 +153,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // SIGNUP
     async function handleSignup() {
-        try {
-            const formData = new FormData(signupForm);
-            const data = Object.fromEntries(formData.entries());
-    
-            const passwordValidation = validatePassword(data.password);
-            if (!passwordValidation.isValid) {
-                showMessage(passwordValidation.message, 'error');
-                return;
-            }
-    
-            if (data.password !== data.confirm_password) {
-                throw new Error('Parolele nu coincid!');
-            }
-    
-            const response = await fetch('http://localhost:5000/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(data),
-            });
-    
-            const result = await response.json();
-            if (!response.ok) throw new Error(result.msg || 'Eroare la înregistrare');
-    
-            localStorage.setItem('user', JSON.stringify(result.user));
-    
-            showMessage("Înregistrare reușită!", 'success');
-            setTimeout(() => window.location.href = '/frontend/html/dashboard.html', 1500);
-        } catch (error) {
-            showMessage(error.message, 'error');
-            console.error('Signup error:', error);
+    try {
+        const formData = new FormData(signupForm);
+        const data = Object.fromEntries(formData.entries());
+
+        const passwordValidation = validatePassword(data.password);
+        if (!passwordValidation.isValid) {
+            showMessage(passwordValidation.message, 'error');
+            return;
         }
+
+        if (data.password !== data.confirm_password) {
+            throw new Error('Parolele nu coincid!');
+        }
+
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.msg || 'Eroare la înregistrare');
+
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+
+        if (rememberMe?.checked) {
+            document.cookie = `token=${result.token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Strict`;
+        }
+
+        showMessage("Înregistrare reușită!", 'success');
+        setTimeout(() => window.location.href = '/frontend/html/dashboard.html', 1500);
+    } catch (error) {
+        showMessage(error.message, 'error');
+        console.error('Signup error:', error);
     }
+}
 
     // FORMS
     loginForm?.addEventListener('submit', (e) => {
