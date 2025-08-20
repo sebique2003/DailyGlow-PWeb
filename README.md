@@ -17,7 +17,6 @@
 - **backend/** – Server Node.js + Express
   - Autentificare JWT, gestionare utilizatori, upload imagine profil
   - MongoDB pentru stocarea datelor
-- **uploads/** – Imagini de profil încărcate
 - **bootstrap/**, **fontsAwesome/**, **chart/** – Biblioteci externe
 
 ---
