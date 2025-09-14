@@ -65,4 +65,4 @@
 
 ---
 
-> 🧑‍💻 Proiectul este în dezvoltare activă! Vor urma update-uri
+> 🧑‍💻 Proiectul nu este finalizat în totalitate! Pot urma update-uri
