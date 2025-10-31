@@ -66,3 +66,7 @@
 ---
 
 > 🧑‍💻 The project is not fully completed! Updates may follow
+
+---
+
+> This project was developed as part of the Web Programming course at Transilvania University of Brașov.
